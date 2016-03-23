@@ -11,8 +11,7 @@ class Dropoff
 	{
 		$file = simplexml_load_file('data/'.$user.'.xml');
 
-		if(file_exists($file))
-			return $file;
+		return $file;
 	}
 
 	function getDropoffDate($date)

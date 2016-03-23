@@ -16,3 +16,7 @@ define('LEAVEEARLY_VALUE', .5);
 // Rolling period in which points drop off.
 // Utilize strtotime() formatting.
 define('DROPOFF_PERIOD', '+6 month');
+
+// Date format to display dates.
+// Utilize date() formatting.
+define('DATE_FORMAT', 'l, F jS');

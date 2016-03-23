@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dropoff>
+	<occurrence type="absent" date="06/15/2013" />
 	<occurrence type="absent" date="03/15/2016" />
-	<occurrence type="tardy" date="03/21/2016" />
+	<occurrence type="leaveearly" date="03/21/2016" />
 </dropoff>
