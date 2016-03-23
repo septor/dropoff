@@ -5,6 +5,7 @@
  * Copyright (C) 2016 Patrick Weaver (http://septor.xyz)
  * For additional information refer to the README.md file.
  */
+require_once('_config.php');
 require_once('_class.php');
 $drop = new Dropoff();
 $user = 'example';

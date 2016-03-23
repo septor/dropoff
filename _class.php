@@ -17,7 +17,7 @@ class Dropoff
 
 	function getDropoffDate($date)
 	{
-		return strtotime("+6 month", strtotime($date));
+		return strtotime(DROPOFF_PERIOD, strtotime($date));
 	}
 
 	function getActivePoints($user)
@@ -33,11 +33,11 @@ class Dropoff
 			if($currDate < $dropoff)
 			{
 				if($md['type'] == 'absent')
-					$points += 1;
+					$points += ABSENT_VALUE;
 				else if($md['type'] == 'tardy')
-					$points += .5;
+					$points += TARDY_VALUE;
 				else if($md['type'] == 'leaveearly')
-					$points += .5;
+					$points += LEAVEEARLY_VALUE;
 			}
 		}
 
