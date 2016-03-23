@@ -7,9 +7,14 @@
  */
 class Dropoff
 {
-	function loadUser($user)
+	function __construct($user='default')
 	{
-		$file = simplexml_load_file('data/'.$user.'.xml');
+		$this->user = $user;
+	}
+
+	function loadFile()
+	{
+		$file = simplexml_load_file('data/'.$this->user.'.xml');
 
 		return $file;
 	}
@@ -19,9 +24,9 @@ class Dropoff
 		return strtotime(DROPOFF_PERIOD, strtotime($date));
 	}
 
-	function getActivePoints($user)
+	function getActivePoints()
 	{
-		$data = $this->loadUser($user);
+		$data = $this->loadFile();
 		$points = 0;
 		$currDate = time();
 
@@ -42,4 +47,17 @@ class Dropoff
 
 		return $points;
 	}
+
+	function addOccurrence($type, $date)
+	{
+		$file = simplexml_load_file('data/'.$this->user.'.xml');
+
+		$child = $file->addChild("occurrence");
+		$child->addAttribute("type", $type);
+		$child->addAttribute("date", $date);
+
+		$file->asXML('data/'.$this->user.'.xml');
+	}
+
+
 }

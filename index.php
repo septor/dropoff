@@ -8,11 +8,15 @@
 // NOTE: Styling will come after the data dump is completed!
 require_once('_config.php');
 require_once('_class.php');
-$drop = new Dropoff();
-$user = 'default';
 
-$data = $drop->loadUser($user);
-$points = $drop->getActivePoints($user);
+$drop = new Dropoff();
+$data = $drop->loadFile();
+$points = $drop->getActivePoints();
+
+if(isset($_POST['submit']))
+{
+	$drop->addOccurrence($_POST['type'], $_POST['date']);
+}
 
 
 echo '<!doctype html>
@@ -56,8 +60,8 @@ echo '
 		<div>
 			<p>You can add another occurrence below:</p>
 
-			<form method="post" name="date" action="index.php">
-				<p>Date occurrence happened: <input type="text" id="datepicker"></p>
+			<form method="post" action="index.php">
+				<p>Date occurrence happened: <input type="text" name="date" id="datepicker"></p>
 				<p>
 					Type of occurrence:
 					<select name="type">
