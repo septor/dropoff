@@ -15,7 +15,11 @@ $points = $drop->getActivePoints();
 
 if(isset($_POST['submit']))
 {
-	$drop->addOccurrence($_POST['type'], $_POST['date']);
+	// Needs actual testing, plus we need to define the file somewhere and then send it.
+	if($_POST['password'] == $PASSWORD['default.xml'])
+		$drop->addOccurrence($_POST['type'], $_POST['date']);
+	else
+		break;
 }
 
 
@@ -25,12 +29,24 @@ echo '<!doctype html>
 		<meta charset="utf-8">
 		<title>Dropoff - Attendence Buddy</title>
 		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="assets/style.css">
 	</head>
 	<body>
-		<div>
-			<p>You currently have '.$points.' active occurrences.</p>
-			<p>Here are how you received them:</p>
-			<ul>';
+		<div id="header">
+			<h1>Dropoff</h1>
+			<p>Attendance Buddy</p>
+		</div>
+		<div id="content">
+			<h1>Active Occurrences</h1>
+			<table id="dings">
+				<thead>
+					<tr>
+						<td>What Happened</td>
+						<td>Occurrence Date</td>
+						<td>Dropoff Date</td>
+					</tr>
+				</thead>
+				<tbody>';
 
 foreach($data->occurrence as $ding)
 {
@@ -42,24 +58,32 @@ foreach($data->occurrence as $ding)
 	if(time() < $dropunix)
 	{
 		if($type == 'absent')
-			echo '
-				<li>You called in (+'.ABSENT_VALUE.') on '.$date.'. It drops off on '.$dropoff.'.</li>';
+			$wordtype = 'Called In';
 		else if($type == 'tardy')
-			echo '
-				<li>You were late (+'.TARDY_VALUE.') on '.$date.'. It drops off on '.$dropoff.'.</li>';
+			$wordtype = 'Came In Late';
 		else
-			echo '
-				<li>You left early (+'.LEAVEEARLY_VALUE.') on '.$date.'. It drops off on '.$dropoff.'.</li>';
+			$wordtype = 'Left Early';
+
+		echo '
+					<tr>
+						<td>'.$wordtype.'</td>
+						<td>'.$date.'</td>
+						<td>'.$dropoff.'</td>
+					</tr>';
 	}
 }
 
 echo '
-			</ul>
-			<p>You have '.(TOTAL_ALLOWED_OCCURRENCES - $points).' points you can still use.</p>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3">Total Points: '.$points.' - Points Remaining: '.(TOTAL_ALLOWED_OCCURRENCES - $points).'</td>
+					</tr>
+				</tfoot>
+			</table>
 		</div>
-		<div>
-			<p>You can add another occurrence below:</p>
-
+		<div id="manage">
+			<h1>Add Occurrence</h1>
 			<form method="post" action="index.php">
 				<p>Date occurrence happened: <input type="text" name="date" id="datepicker"></p>
 				<p>
@@ -70,11 +94,12 @@ echo '
 						<option value="leaveearly">Left Early</option>
 					</select>
 				</p>
+				<p>Password: <input type="password" name="password"></p>
 				<p><input type="submit" name="submit" value="Add occurrence"></p>
 			</form>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-		<script src="dropoff.js"></script>
+		<script src="assets/dropoff.js"></script>
 	</body>
 </html>';
