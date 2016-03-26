@@ -7,19 +7,19 @@
  */
 // NOTE: Styling will come after the data dump is completed!
 require_once('_config.php');
+require_once('_passwords.php');
 require_once('_class.php');
 
 $drop = new Dropoff();
 $data = $drop->loadFile();
 $points = $drop->getActivePoints();
+$dod = round(($drop->getNextDropoffDing() - time())/60/60/24);
 
 if(isset($_POST['submit']))
 {
 	// Needs actual testing, plus we need to define the file somewhere and then send it.
 	if($_POST['password'] == $PASSWORD['default.xml'])
 		$drop->addOccurrence($_POST['type'], $_POST['date']);
-	else
-		break;
 }
 
 
@@ -38,6 +38,9 @@ echo '<!doctype html>
 		</div>
 		<div id="content">
 			<h1>Active Occurrences</h1>
+			<p style="text-align:center;">
+				You currently have <strong>'.$points.'</strong> points. Your next occurrence drops off in <strong>'.$dod.'</strong> days.
+			</p>
 			<table id="dings">
 				<thead>
 					<tr>
@@ -75,11 +78,6 @@ foreach($data->occurrence as $ding)
 
 echo '
 				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="3">Total Points: '.$points.' - Points Remaining: '.(TOTAL_ALLOWED_OCCURRENCES - $points).'</td>
-					</tr>
-				</tfoot>
 			</table>
 		</div>
 		<div id="manage">

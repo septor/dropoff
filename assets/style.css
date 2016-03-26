@@ -53,7 +53,7 @@ input, select {
 #dings thead {
 	font-weight: 800;
 }
-#dings thead td, #dings tfoot td {
+#dings thead td {
 	background-color: #007dc6;
 }
 #dings thead td {
@@ -64,7 +64,4 @@ input, select {
 }
 #dings tr:nth-child(odd) {
 	background-color: #79b9e7;
-}
-#dings tfoot td {
-	text-align: right;
 }

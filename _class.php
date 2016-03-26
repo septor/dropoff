@@ -24,6 +24,23 @@ class Dropoff
 		return strtotime(DROPOFF_PERIOD, strtotime($date));
 	}
 
+	function getNextDropoffDing()
+	{
+		$data = $this->loadFile();
+		$currDate = time();
+
+		foreach($data->occurrence as $date)
+		{
+			$dropoff = $this->getDropoffDate($date['date']);
+
+			if($currDate < $dropoff)
+				$dates[] = $this->getDropoffDate($date['date']);
+		}
+		sort($dates);
+
+		return $dates[0];
+	}
+
 	function getActivePoints()
 	{
 		$data = $this->loadFile();
