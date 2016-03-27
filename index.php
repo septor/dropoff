@@ -13,11 +13,11 @@ require_once('_class.php');
 $drop = new Dropoff();
 $data = $drop->loadFile();
 $points = $drop->getActivePoints();
-$dod = $drop->getNextDropoffDing('%m months, %d days');
+$dod = $drop->getNextDropoffDing(DROPOFFDAYS_FORMAT);
 
 if(isset($_POST['submit']))
 {
-	// Needs actual testing, plus we need to define the file somewhere and then send it.
+	// TODO: Needs rethinking and testing.
 	if($_POST['password'] == $PASSWORD['default.xml'])
 		$drop->addOccurrence($_POST['type'], $_POST['date']);
 }
@@ -76,6 +76,7 @@ foreach($data->occurrence as $ding)
 	}
 }
 
+// TODO: Rewrite this into the table above. Use a button to dropdown this information.
 echo '
 				</tbody>
 			</table>

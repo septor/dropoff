@@ -27,20 +27,19 @@ class Dropoff
 	function getNextDropoffDing($format='%m months')
 	{
 		$data = $this->loadFile();
-		$currDate = time();
 
 		foreach($data->occurrence as $date)
 		{
 			$dropoff = $this->getDropoffDate($date['date']);
 
-			if($currDate < $dropoff)
+			if(time() < $dropoff)
 				$dates[] = $this->getDropoffDate($date['date']);
 		}
+
 		sort($dates);
 
 		$date1 = new DateTime(date('Y-m-d'));
 		$date2 = new DateTime(date('Y-m-d', $dates[0]));
-
 		$interval = $date1->diff($date2);
 
 		return $interval->format($format);
