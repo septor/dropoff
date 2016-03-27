@@ -24,7 +24,7 @@ class Dropoff
 		return strtotime(DROPOFF_PERIOD, strtotime($date));
 	}
 
-	function getNextDropoffDing()
+	function getNextDropoffDing($format='%m months')
 	{
 		$data = $this->loadFile();
 		$currDate = time();
@@ -38,7 +38,12 @@ class Dropoff
 		}
 		sort($dates);
 
-		return $dates[0];
+		$date1 = new DateTime(date('Y-m-d'));
+		$date2 = new DateTime(date('Y-m-d', $dates[0]));
+
+		$interval = $date1->diff($date2);
+
+		return $interval->format($format);
 	}
 
 	function getActivePoints()

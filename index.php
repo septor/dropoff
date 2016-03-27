@@ -13,7 +13,7 @@ require_once('_class.php');
 $drop = new Dropoff();
 $data = $drop->loadFile();
 $points = $drop->getActivePoints();
-$dod = round(($drop->getNextDropoffDing() - time())/60/60/24);
+$dod = $drop->getNextDropoffDing('%m months, %d days');
 
 if(isset($_POST['submit']))
 {
@@ -39,7 +39,7 @@ echo '<!doctype html>
 		<div id="content">
 			<h1>Active Occurrences</h1>
 			<p style="text-align:center;">
-				You currently have <strong>'.$points.'</strong> points. Your next occurrence drops off in <strong>'.$dod.'</strong> days.
+				You currently have <strong>'.$points.'</strong> points. Your next occurrence drops off in <strong>'.$dod.'</strong>.
 			</p>
 			<table id="dings">
 				<thead>
